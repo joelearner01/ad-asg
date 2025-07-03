@@ -324,33 +324,24 @@
       font-size: 0.9rem;
     }
     
-    .suggested-questions {
-      background: #f0f8ff;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-    
-    .suggested-questions h4 {
-      color: #004080;
-      margin-bottom: 10px;
+    .loading-message {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      border: 1px solid #2196f3;
       font-size: 0.9rem;
     }
     
-    .question-chip {
-      display: inline-block;
-      background: #004080;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      margin: 3px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    
-    .question-chip:hover {
-      background: #0066cc;
+    .success-message {
+      background: #e8f5e8;
+      color: #2e7d32;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      border: 1px solid #4caf50;
+      font-size: 0.9rem;
     }
     
     @media (max-width: 768px) {
@@ -474,7 +465,7 @@
       </ul>
     </div>
 
-    <a class="apply-btn" href="#" id="apply-link" target="_blank">
+    <a class="apply-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)" id="apply-link" target="_blank">
       Apply Now
     </a>
   </main>
@@ -490,14 +481,7 @@
     <div id="chat-messages">
       <div class="message bot-message">
         <span class="bot-avatar">🤖</span>
-        <strong>Hi! I'm here to help you learn about the ASG Platform 2-Year Residency Program!</strong>
-        <div class="suggested-questions">
-          <h4>💡 Popular Questions:</h4>
-          <span class="question-chip" onclick="askQuestion('What is the monthly allowance?')">Monthly Allowance</span>
-          <span class="question-chip" onclick="askQuestion('What are the benefits?')">Benefits</span>
-          <span class="question-chip" onclick="askQuestion('What are the requirements?')">Requirements</span>
-          <span class="question-chip" onclick="askQuestion('What are the working hours?')">Working Hours</span>
-        </div>
+        <strong>Hi! You can ask me questions about the program!</strong> I'm here to help you learn more about the ASG Platform 2-Year Residency Program.
       </div>
     </div>
     <div class="typing-indicator">
@@ -523,86 +507,208 @@
   </div>
 
   <script>
-    // Enhanced knowledge base with better coverage
-    const knowledgeBase = {
-      faq: [
-        {
-          question: "What is the monthly allowance?",
-          answer: "The monthly allowance is ₱32,000–₱35,000 to start, with increases as you progress through the program.",
-          keywords: ["allowance", "monthly", "salary", "pay", "compensation", "money", "stipend", "32000", "35000"]
-        },
-        {
-          question: "What are the benefits?",
-          answer: "After the first year, you get HMO coverage, stock options, paid time off, and entertainment and meal vouchers. Top performers may join the team earning ₱100,000+ per month.",
-          keywords: ["benefits", "perks", "hmo", "stock", "options", "paid", "time", "off", "vouchers", "entertainment", "meal"]
-        },
-        {
-          question: "What are the requirements?",
-          answer: "You need: (1) Full-time commitment with no other jobs, (2) Your own computer and stable internet, (3) Solid programming background - this is NOT for beginners, (4) A learn-it-all mindset ready for challenges.",
-          keywords: ["requirements", "needed", "need", "qualify", "eligible", "commitment", "computer", "internet", "programming", "background", "beginner"]
-        },
-        {
-          question: "What are the working hours?",
-          answer: "The program schedule is 8 PM - 6:00 AM Philippine Time, Monday - Friday. This is a night shift schedule.",
-          keywords: ["schedule", "time", "hours", "when", "working", "8pm", "6am", "night", "shift", "monday", "friday"]
-        },
-        {
-          question: "Is this program for beginners?",
-          answer: "No, this is NOT a beginner program. It's designed for those who already have hands-on coding background, whether self-taught or from non-traditional paths. You must demonstrate real coding experience to qualify.",
-          keywords: ["beginner", "beginners", "new", "start", "starter", "basic", "first", "time", "zero", "experience"]
-        },
-        {
-          question: "Can I work other jobs during the program?",
-          answer: "No, this requires full-time commitment. No other jobs, gigs, or major obligations are allowed during the program. You must be 100% dedicated to the residency.",
-          keywords: ["other", "jobs", "work", "gigs", "side", "part", "time", "commitment", "dedicated", "obligations"]
-        },
-        {
-          question: "What equipment do I need?",
-          answer: "You need your own personal computer and stable internet connection. These are your responsibility to provide and maintain.",
-          keywords: ["equipment", "computer", "laptop", "pc", "internet", "connection", "own", "personal", "provide"]
-        },
-        {
-          question: "Is this program remote?",
-          answer: "Yes, this is fully remote and open to Filipino citizens residing in the Philippines.",
-          keywords: ["remote", "online", "virtual", "location", "where", "filipino", "philippines", "citizens", "residing"]
-        },
-        {
-          question: "How long is the program?",
-          answer: "This is a 2-year residency program that condenses 5 years of experience into 2 years with personalized guidance from senior developers.",
-          keywords: ["long", "duration", "2", "year", "years", "two", "program", "length", "time", "takes"]
-        },
-        {
-          question: "What happens after the program?",
-          answer: "Top performers who demonstrate exceptional skill, dedication, and alignment with our values may be invited to join the ASG Platform Developer Team, earning ₱100,000+ per month.",
-          keywords: ["after", "completion", "job", "career", "future", "opportunities", "team", "developer", "100000", "top", "performers"]
-        },
-        {
-          question: "What programming languages are taught?",
-          answer: "The program covers multiple technologies based on current industry demand and your personalized learning path. You'll work with senior developers to determine the best tech stack for your career goals.",
-          keywords: ["programming", "languages", "tech", "stack", "technologies", "taught", "learn", "coding", "development"]
-        },
-        {
-          question: "About ASG Platform",
-          answer: "ASG Platform is a pioneering tech company with strong roots in the United States and expanding presence in the Philippines. We specialize in cutting-edge software solutions and are committed to empowering the next generation of tech talent.",
-          keywords: ["asg", "platform", "company", "about", "who", "tech", "software", "united", "states", "philippines"]
-        }
-      ],
-      additional: [
-        {
-          question: "What is the application process?",
-          answer: "The application process involves submitting your application through our form, followed by technical assessments to evaluate your programming background and problem-solving skills."
-        },
-        {
-          question: "Do you provide mentorship?",
-          answer: "Yes, you'll receive personalized mentorship from senior developers throughout the program. This is one of our key differentiators."
-        },
-        {
-          question: "What if I don't get selected for the team after graduation?",
-          answer: "Even if you're not selected for our team, you'll have gained 2 years of intensive experience equivalent to 5 years in the industry, making you highly competitive in the job market."
-        }
-      ]
-    };
+    // Google Sheets Integration
+    class GoogleSheetsAPI {
+      constructor() {
+        this.SPREADSHEET_ID = '1-YXTCpTwL5gmRa28GKlh_7JAPJxF6QFCnFDVSeA7DQc';
+        this.API_KEY = 'AIzaSyB4YeEJEgQTVjF_3lGfcLkNRmqjEE7wv8g';
+        this.BASE_URL = 'https://sheets.googleapis.com/v4/spreadsheets';
+        this.CLIENT_ID = '404561434159-c8va00eibcj5m7ascuqpq89ajkugudu2.apps.googleusercontent.com';
+        this.CLIENT_SECRET = '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';
+      }
 
+      async fetchSheetData(range) {
+        try {
+          const response = await fetch(
+            `${this.BASE_URL}/${this.SPREADSHEET_ID}/values/${range}?key=${this.API_KEY}`
+          );
+          const data = await response.json();
+          return data.values || [];
+        } catch (error) {
+          console.error('Error fetching sheet data:', error);
+          return null;
+        }
+      }
+
+      async appendToSheet(range, values) {
+        try {
+          const response = await fetch(
+            `${this.BASE_URL}/${this.SPREADSHEET_ID}/values/${range}:append?valueInputOption=RAW&key=${this.API_KEY}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                values: [values]
+              })
+            }
+          );
+          return response.ok;
+        } catch (error) {
+          console.error('Error appending to sheet:', error);
+          return false;
+        }
+      }
+    }
+
+    // Initialize Google Sheets API
+    const sheetsAPI = new GoogleSheetsAPI();
+
+    // Enhanced Knowledge Base with dynamic data loading
+    class KnowledgeBase {
+      constructor() {
+        this.faqData = [];
+        this.additionalData = [];
+        this.loadingPromise = this.loadData();
+      }
+
+      async loadData() {
+        try {
+          // Load FAQ data from Sheet1
+          const faqSheet = await sheetsAPI.fetchSheetData('Sheet1!A:C');
+          if (faqSheet && faqSheet.length > 1) {
+            this.faqData = faqSheet.slice(1).map(row => ({
+              question: row[0] || '',
+              answer: row[1] || '',
+              category: row[2] || 'general'
+            })).filter(item => item.question && item.answer);
+          }
+
+          // Load additional questions from "Addt'l Questions" sheet
+          const additionalSheet = await sheetsAPI.fetchSheetData("Addt'l Questions!A:B");
+          if (additionalSheet && additionalSheet.length > 1) {
+            this.additionalData = additionalSheet.slice(1).map(row => ({
+              question: row[0] || '',
+              answer: row[1] || ''
+            })).filter(item => item.question && item.answer);
+          }
+
+          console.log('Knowledge base loaded:', {
+            faq: this.faqData.length,
+            additional: this.additionalData.length
+          });
+        } catch (error) {
+          console.error('Error loading knowledge base:', error);
+          this.loadFallbackData();
+        }
+      }
+
+      loadFallbackData() {
+        // Fallback data if sheets can't be loaded
+        this.faqData = [
+          {
+            question: "What is the monthly allowance?",
+            answer: "The monthly allowance is ₱32,000–₱35,000 to start, with increases as you progress through the program.",
+            category: "compensation"
+          },
+          {
+            question: "What are the benefits?",
+            answer: "After the first year, you get HMO coverage, stock options, paid time off, and entertainment and meal vouchers. Top performers may join the team earning ₱100,000+ per month.",
+            category: "benefits"
+          },
+          {
+            question: "Is this program for beginners?",
+            answer: "No, this is not a beginner program. It's designed for those who already have hands-on coding background, whether self-taught or from non-traditional paths.",
+            category: "requirements"
+          },
+          {
+            question: "What are the working hours?",
+            answer: "The program schedule is 8 PM - 6:00 AM Philippine Time, Monday - Friday.",
+            category: "schedule"
+          },
+          {
+            question: "Can I work other jobs during the program?",
+            answer: "No, this requires full-time commitment. No other jobs, gigs, or major obligations are allowed during the program.",
+            category: "requirements"
+          },
+          {
+            question: "What equipment do I need?",
+            answer: "You need your own personal computer and stable internet connection.",
+            category: "requirements"
+          },
+          {
+            question: "Is this program remote?",
+            answer: "Yes, this is fully remote and open to Filipino citizens residing in the Philippines.",
+            category: "general"
+          }
+        ];
+      }
+
+      async waitForLoad() {
+        await this.loadingPromise;
+      }
+
+      findAnswer(question) {
+        const keywords = this.extractKeywords(question);
+        
+        // Search in FAQ data
+        for (const item of this.faqData) {
+          const itemKeywords = this.extractKeywords(item.question);
+          if (this.hasMatchingKeywords(keywords, itemKeywords) || 
+              question.toLowerCase().includes(item.question.toLowerCase().substring(0, 10))) {
+            return item.answer;
+          }
+        }
+        
+        // Search in additional data
+        for (const item of this.additionalData) {
+          const itemKeywords = this.extractKeywords(item.question);
+          if (this.hasMatchingKeywords(keywords, itemKeywords)) {
+            return item.answer;
+          }
+        }
+        
+        return null;
+      }
+
+      findCategoryAnswers(question) {
+        const questionLower = question.toLowerCase();
+        const categoryKeywords = {
+          'benefits': ['benefit', 'benefits', 'perks', 'hmo', 'stock', 'paid time off', 'voucher'],
+          'requirements': ['requirements', 'requirement', 'needed', 'need', 'qualify', 'eligible'],
+          'compensation': ['salary', 'pay', 'allowance', 'money', 'compensation', 'earn'],
+          'schedule': ['schedule', 'time', 'hours', 'when', 'working hours'],
+          'general': ['remote', 'location', 'where', 'filipino']
+        };
+        
+        for (const [category, keywords] of Object.entries(categoryKeywords)) {
+          if (keywords.some(keyword => questionLower.includes(keyword))) {
+            const categoryAnswers = this.faqData
+              .filter(item => item.category === category)
+              .map(item => item.answer);
+            
+            if (categoryAnswers.length > 0) {
+              return categoryAnswers;
+            }
+          }
+        }
+        
+        return [];
+      }
+
+      extractKeywords(text) {
+        const stopWords = ['what', 'is', 'the', 'can', 'i', 'do', 'how', 'when', 'where', 'why', 'are', 'am', 'will', 'would', 'should', 'could'];
+        return text.toLowerCase()
+          .replace(/[^\w\s]/g, '')
+          .split(/\s+/)
+          .filter(word => word.length > 2 && !stopWords.includes(word));
+      }
+
+      hasMatchingKeywords(keywords1, keywords2) {
+        return keywords1.some(keyword => keywords2.includes(keyword));
+      }
+
+      async saveQuestion(question) {
+        const timestamp = new Date().toISOString();
+        return await sheetsAPI.appendToSheet("Addt'l Questions!A:B", [question, timestamp]);
+      }
+    }
+
+    // Initialize knowledge base
+    const knowledgeBase = new KnowledgeBase();
+
+    // Chat elements
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
     const typingIndicator = document.querySelector('.typing-indicator');
@@ -625,14 +731,19 @@
       }
     });
 
-    function askQuestion(question) {
-      userInput.value = question;
-      sendChat();
-    }
-
-    function sendChat() {
+    async function sendChat() {
       const msg = userInput.value.trim();
       if (!msg) return;
+
+      // Check for inappropriate content
+      if (containsInappropriateContent(msg)) {
+        addMessage('user', msg);
+        setTimeout(() => {
+          addMessage('bot', "I understand you might be frustrated, but let's keep our conversation professional. How can I help you with questions about the ASG Platform 2-Year Residency Program?");
+        }, 500);
+        userInput.value = "";
+        return;
+      }
 
       addMessage('user', msg);
       userInput.value = "";
@@ -640,11 +751,23 @@
       // Show typing indicator
       showTyping();
       
-      // Search for answer
-      setTimeout(() => {
+      // Wait for knowledge base to load and then search for answer
+      try {
+        await knowledgeBase.waitForLoad();
+        setTimeout(() => {
+          hideTyping();
+          searchForAnswer(msg);
+        }, 1000);
+      } catch (error) {
         hideTyping();
-        searchForAnswer(msg);
-      }, 1000);
+        addMessage('bot', "I'm having trouble accessing the latest information. Let me try with the basic knowledge I have...");
+        setTimeout(() => searchForAnswer(msg), 1000);
+      }
+    }
+
+    function containsInappropriateContent(message) {
+      const inappropriateWords = ['stupid', 'dumb', 'idiot', 'hate', 'suck', 'worst', 'terrible', 'awful'];
+      return inappropriateWords.some(word => message.toLowerCase().includes(word));
     }
 
     function addMessage(sender, message) {
@@ -671,147 +794,197 @@
     }
 
     function searchForAnswer(question) {
-      const answer = findAnswer(question);
+      const answer = knowledgeBase.findAnswer(question);
       
       if (answer) {
         addMessage('bot', answer);
-        // After answering, provide application link
         setTimeout(() => {
-          addMessage('bot', "I hope that helps! If you're ready to apply, you can use the application button on the page. Any other questions about the program?");
+          addMessage('bot', "I hope that helps! If you're ready to apply, you can use the application button on the page or <a href='https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)' target='_blank' style='color: #004080; text-decoration: underline;'>click here to apply now</a>.");
         }, 1500);
       } else {
-        // Check additional questions
-        const additionalAnswer = findAnswerInAdditional(question);
-        if (additionalAnswer) {
-          addMessage('bot', additionalAnswer);
+        // Check for category answers
+        const categoryAnswers = knowledgeBase.findCategoryAnswers(question);
+        if (categoryAnswers.length > 0) {
+          addMessage('bot', `Here are the details about that: ${categoryAnswers.join(' ')}`);
           setTimeout(() => {
-            addMessage('bot', "I hope that helps! If you're ready to apply, you can use the application button on the page. Any other questions?");
+            addMessage('bot', "I hope that helps! If you're ready to apply, you can use the application button on the page or <a href='https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)' target='_blank' style='color: #004080; text-decoration: underline;'>click here to apply now</a>.");
           }, 1500);
         } else {
-          // Offer question form
-          addMessage('bot', "I don't have a specific answer to that question in my knowledge base. Would you like me to connect you with our recruitment team? They can provide detailed answers within 2 business days.");
+          // No specific answer found, offer to help
+          addMessage('bot', "I don't have a specific answer for that question yet. Let me help you get the information you need!");
           setTimeout(() => {
-            addMessage('bot', "Click below to submit your question:");
             showQuestionForm();
           }, 1000);
         }
       }
     }
 
-    function findAnswer(question) {
-      const questionLower = question.toLowerCase();
-      
-      // Direct keyword matching with scoring
-      let bestMatch = null;
-      let bestScore = 0;
-      
-      for (const item of knowledgeBase.faq) {
-        let score = 0;
-        
-        // Check if question contains keywords from this FAQ item
-        for (const keyword of item.keywords) {
-          if (questionLower.includes(keyword.toLowerCase())) {
-            score += 1;
-          }
-        }
-        
-        // Bonus for exact phrase matches
-        if (questionLower.includes(item.question.toLowerCase().substring(0, 10))) {
-          score += 3;
-        }
-        
-        if (score > bestScore) {
-          bestScore = score;
-          bestMatch = item;
-        }
-      }
-      
-      // Return answer if we have a good match (score >= 1)
-      if (bestMatch && bestScore >= 1) {
-        return bestMatch.answer;
-      }
-      
-      return null;
-    }
-
-    function findAnswerInAdditional(question) {
-      const questionLower = question.toLowerCase();
-      
-      for (const item of knowledgeBase.additional) {
-        const itemQuestion = item.question.toLowerCase();
-        
-        // Check for keyword matches
-        const questionWords = questionLower.split(/\s+/);
-        const itemWords = itemQuestion.split(/\s+/);
-        
-        let matches = 0;
-        for (const word of questionWords) {
-          if (word.length > 2 && itemWords.some(itemWord => itemWord.includes(word) || word.includes(itemWord))) {
-            matches++;
-          }
-        }
-        
-        if (matches >= 2) {
-          return item.answer;
-        }
-      }
-      
-      return null;
-    }
-
     function showQuestionForm() {
       questionForm.style.display = 'block';
-      clearError();
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      document.getElementById('candidate-question').focus();
     }
 
     function hideQuestionForm() {
       questionForm.style.display = 'none';
-      clearError();
-    }
-
-    function showError(message) {
-      clearError();
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'error-message';
-      errorDiv.textContent = message;
-      errorContainer.appendChild(errorDiv);
-    }
-
-    function clearError() {
       errorContainer.innerHTML = '';
     }
 
-    function submitQuestion() {
+    async function submitQuestion() {
       const question = document.getElementById('candidate-question').value.trim();
-      const hasProgramming = document.getElementById('programming-background').checked;
+      const hasProgrammingBackground = document.getElementById('programming-background').checked;
       
-      clearError();
+      errorContainer.innerHTML = '';
       
       if (!question) {
         showError('Please enter your question.');
         return;
       }
       
-      if (!hasProgramming) {
-        showError('This program requires candidates to have a solid programming background. Please check the box if you have programming experience.');
+      if (!hasProgrammingBackground) {
+        showError('This program requires programming background. Please check the box if you have programming experience.');
         return;
       }
       
-      // Here you would integrate with Google Apps Script to save to spreadsheet
-      // For now, we'll simulate the submission
-      addMessage('bot', `Thank you! I've recorded your question: "${question}". Our recruitment team will get back to you within 2 business days with a detailed answer.`);
+      showLoading('Submitting your question...');
       
-      hideQuestionForm();
-      
-      // Clear form
-      document.getElementById('candidate-question').value = '';
-      document.getElementById('programming-background').checked = false;
-      
-      setTimeout(() => {
-        addMessage('bot', "Is there anything else about the program I can help you with in the meantime?");
-      }, 2000);
+      try {
+        const timestamp = new Date().toISOString();
+        const success = await sheetsAPI.appendToSheet("Addt'l Questions!A:C", [
+          question,
+          timestamp,
+          'From Chat Bot'
+        ]);
+        
+        if (success) {
+          showSuccess('Your question has been submitted! We\'ll get back to you within 2 business days.');
+          document.getElementById('candidate-question').value = '';
+          document.getElementById('programming-background').checked = false;
+          setTimeout(() => {
+            hideQuestionForm();
+            addMessage('bot', "Thanks for your question! We've received it and will get back to you within 2 business days. In the meantime, feel free to ask me anything else about the program!");
+          }, 2000);
+        } else {
+          showError('Sorry, there was an error submitting your question. Please try again or contact us directly.');
+        }
+      } catch (error) {
+        console.error('Error submitting question:', error);
+        showError('Sorry, there was an error submitting your question. Please try again or contact us directly.');
+      }
     }
 
-    // Initialize application link (replace with actual link)
-    document.getElementById('apply-link').href = 'https
+    function showError(message) {
+      errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+
+    function showLoading(message) {
+      errorContainer.innerHTML = `<div class="loading-message">${message}</div>`;
+    }
+
+    function showSuccess(message) {
+      errorContainer.innerHTML = `<div class="success-message">${message}</div>`;
+    }
+
+    // Initialize the chat system
+    document.addEventListener('DOMContentLoaded', function() {
+      // Pre-load knowledge base
+      knowledgeBase.waitForLoad().then(() => {
+        console.log('Knowledge base ready');
+      }).catch(error => {
+        console.error('Failed to load knowledge base:', error);
+      });
+      
+      // Add welcome message enhancement
+      setTimeout(() => {
+        addMessage('bot', "✨ <strong>Quick tip:</strong> I can help you with questions about eligibility, benefits, schedule, application process, and more!");
+      }, 2000);
+    });
+
+    // Enhanced question suggestions
+    function suggestQuestions() {
+      const suggestions = [
+        "What programming languages do you work with?",
+        "How do I know if I'm qualified?",
+        "What happens after I complete the program?",
+        "Can you tell me more about the interview process?",
+        "What kind of projects will I work on?",
+        "How competitive is the selection process?"
+      ];
+      
+      const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+      setTimeout(() => {
+        addMessage('bot', `💡 <strong>Suggestion:</strong> Try asking me "${randomSuggestion}"`);
+      }, 5000);
+    }
+
+    // Call suggestion function after page loads
+    setTimeout(suggestQuestions, 10000);
+
+    // Add scroll behavior for better UX
+    function scrollToBottom() {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Enhanced error handling for API calls
+    window.addEventListener('online', function() {
+      if (knowledgeBase.faqData.length === 0) {
+        knowledgeBase.loadData();
+      }
+    });
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const chatBox = document.getElementById('chat-box');
+        if (chatBox.style.display === 'flex') {
+          chatBox.style.display = 'none';
+        }
+        hideQuestionForm();
+      }
+    });
+
+    // Analytics tracking (optional)
+    function trackInteraction(action, details) {
+      console.log('User interaction:', action, details);
+      // Could integrate with Google Analytics or other tracking services
+    }
+
+    // Track when users interact with the chat
+    document.getElementById('chat-icon').addEventListener('click', () => {
+      trackInteraction('chat_opened', {});
+    });
+
+    // Track when users send messages
+    function trackMessage(message) {
+      trackInteraction('message_sent', { message_length: message.length });
+    }
+
+    // Enhanced mobile responsiveness
+    function adjustChatForMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const chatBox = document.getElementById('chat-box');
+      
+      if (isMobile) {
+        chatBox.style.width = '90vw';
+        chatBox.style.right = '5vw';
+        chatBox.style.left = '5vw';
+        chatBox.style.maxHeight = '70vh';
+      } else {
+        chatBox.style.width = '350px';
+        chatBox.style.right = '30px';
+        chatBox.style.left = 'auto';
+        chatBox.style.maxHeight = '500px';
+      }
+    }
+
+    window.addEventListener('resize', adjustChatForMobile);
+    adjustChatForMobile(); // Call on load
+
+    // Service worker registration for offline support (optional)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        // You can add a service worker here for offline functionality
+      });
+    }
+  </script>
+</body>
+</html>
