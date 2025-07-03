@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASG Platform - 2-Year Residency Program</title>
+  <style>
+    /* ... (Keep your original CSS, omitted here for brevity) ... */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>2-Year Residency Program for Software Developer</h1>
+    <p>By ASG Platform — Fully Remote, Scholarship-based Intensive Bootcamp with Monthly Allowance</p>
+  </header>
+  <main>
+    <!-- ... (Keep your original main content here) ... -->
+    <a class="apply-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)" id="apply-link" target="_blank">
+      Apply Now
+    </a>
+  </main>
+  <div class="chat-indicator">💬 Ask me about the program!</div>
+  <div id="chat-icon">🤖</div>
+  <div id="chat-box">
+    <div id="chat-header">
+      <div>🤖 ASG Program Assistant</div>
+    </div>
+    <div id="chat-messages">
+      <div class="message bot-message">
+        <span class="bot-avatar">🤖</span>
+        <strong>Hi! You can ask me questions about the program!</strong> I'm here to help you learn more about the ASG Platform 2-Year Residency Program.
+      </div>
+    </div>
+    <div class="typing-indicator">
+      <span class="bot-avatar">🤖</span>
+      <span class="typing-dots">Typing...</span>
+    </div>
+    <div id="chat-input">
+      <input type="text" id="user-input" placeholder="Type your question here..." maxlength="500">
+      <button onclick="sendChat()">Send</button>
+    </div>
+    <div id="question-form">
+      <h3>🤔 Can't find the answer? Let us help!</h3>
+      <p>Fill out this form and we'll get back to you within 2 business days.</p>
+      <label>
+        <input type="checkbox" id="programming-background"> I have programming background
+      </label>
+      <div id="error-container"></div>
+      <textarea id="candidate-question" placeholder="What's your question?" rows="3" required></textarea>
+      <button onclick="submitQuestion()">Submit Question</button>
+      <button onclick="hideQuestionForm()" style="background: #666; margin-left: 10px;">Cancel</button>
+    </div>
+  </div>
+  <script>
+    /// ---- CONFIGURATION: CHANGE THESE ----
+    // 1. Google Sheet published as CSV (FAQ)
+    const FAQ_CSV_URL = "https://docs.google.com/spreadsheets/d/e/1FAIpQLSdB5u8_A4-examplereplacewithyoursheet/pub?output=csv";
+    // 2. Google Form submit URL for questions
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf-EXAMPLE-REPLACEWITHYOURFORM/formResponse";
+    // 3. Google Form "entry" ID for the question field (find in Form's HTML source)
+    const GOOGLE_FORM_QUESTION_ENTRY_ID = "entry.123456789"; // <-- Replace with your real entry ID
+
+    // ---- END CONFIGURATION ----
+    // Helper: Parse CSV
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      return lines.map(line => {
+        // Basic CSV split, will work if no commas inside cells
+        return line.split(',').map(cell => cell.replace(/^"|"$/g, '').trim());
+      });
+    }
+
+    // Knowledge Base Class (FAQ)
+    class KnowledgeBase {
+      constructor() {
+        this.faqData = [];
+        this.loadingPromise = this.loadData();
+      }
+      async loadData() {
+        try {
+          const res = await fetch(FAQ_CSV_URL);
+          const text = await res.text();
+          const rows = parseCSV(text);
+          // Assume header: Question,Answer,Category
+          this.faqData = rows.slice(1).map(row => ({
+            question: row[0] || '',
+            answer: row[1] || '',
+            category: row[2] || 'general'
+          })).filter(item => item.question && item.answer);
+        } catch (e) {
+          this.loadFallbackData();
+        }
+      }
+      loadFallbackData() {
+        this.faqData = [
+          { question: "What is the monthly allowance?", answer: "₱32,000–₱35,000...", category: "compensation" },
+          { question: "What are the benefits?", answer: "After the first year, you get HMO coverage, stock options...", category: "benefits" },
+          { question: "Is this program for beginners?", answer: "No, you need real coding experience.", category: "requirements" },
+          { question: "What are the working hours?", answer: "8 PM - 6:00 AM Philippine Time, Mon-Fri.", category: "schedule" },
+          { question: "Can I work other jobs during the program?", answer: "No, this requires full-time commitment.", category: "requirements" }
+        ];
+      }
+      async waitForLoad() {
+        await this.loadingPromise;
+      }
+      extractKeywords(text) {
+        const stopWords = ['what','is','the','can','i','do','how','when','where','why','are','am','will','would','should','could'];
+        return text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !stopWords.includes(w));
+      }
+      hasMatchingKeywords(keywords1, keywords2) {
+        return keywords1.some(keyword => keywords2.includes(keyword));
+      }
+      findAnswer(question) {
+        const keywords = this.extractKeywords(question);
+        for (const item of this.faqData) {
+          const itemKeywords = this.extractKeywords(item.question);
+          if (this.hasMatchingKeywords(keywords, itemKeywords) || question.toLowerCase().includes(item.question.toLowerCase().substring(0, 10))) {
+            return item.answer;
+          }
+        }
+        return null;
+      }
+      findCategoryAnswers(question) {
+        const questionLower = question.toLowerCase();
+        const categoryKeywords = {
+          'benefits': ['benefit', 'perks', 'hmo', 'stock', 'paid time off', 'voucher'],
+          'requirements': ['requirements', 'needed', 'qualify', 'eligible'],
+          'compensation': ['salary', 'pay', 'allowance', 'money', 'compensation', 'earn'],
+          'schedule': ['schedule', 'time', 'hours', 'when', 'working hours'],
+          'general': ['remote', 'location', 'where', 'filipino']
+        };
+        for (const [category, keywords] of Object.entries(categoryKeywords)) {
+          if (keywords.some(keyword => questionLower.includes(keyword))) {
+            const categoryAnswers = this.faqData.filter(item => item.category === category).map(item => item.answer);
+            if (categoryAnswers.length > 0) return categoryAnswers;
+          }
+        }
+        return [];
+      }
+    }
+    // Initialize knowledge base
+    const knowledgeBase = new KnowledgeBase();
+
+    // Chat UI
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const typingIndicator = document.querySelector('.typing-indicator');
+    const questionForm = document.getElementById('question-form');
+    const errorContainer = document.getElementById('error-container');
+
+    document.getElementById("chat-icon").onclick = () => {
+      const box = document.getElementById("chat-box");
+      box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
+      if (box.style.display === "flex") userInput.focus();
+    };
+
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendChat();
+    });
+
+    function containsInappropriateContent(message) {
+      const inappropriateWords = ['stupid','dumb','idiot','hate','suck','worst','terrible','awful'];
+      return inappropriateWords.some(word => message.toLowerCase().includes(word));
+    }
+
+    function addMessage(sender, message) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}-message`;
+      if (sender === 'bot') {
+        messageDiv.innerHTML = `<span class="bot-avatar">🤖</span>${message}`;
+      } else {
+        messageDiv.textContent = message;
+      }
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTyping() { typingIndicator.style.display = 'block'; chatMessages.scrollTop = chatMessages.scrollHeight; }
+    function hideTyping() { typingIndicator.style.display = 'none'; }
+
+    async function sendChat() {
+      const msg = userInput.value.trim();
+      if (!msg) return;
+      if (containsInappropriateContent(msg)) {
+        addMessage('user', msg);
+        setTimeout(() => { addMessage('bot', "Let's keep it professional. How can I help you with the ASG Program?"); }, 500);
+        userInput.value = "";
+        return;
+      }
+      addMessage('user', msg);
+      userInput.value = "";
+      showTyping();
+      await knowledgeBase.waitForLoad();
+      setTimeout(() => {
+        hideTyping();
+        searchForAnswer(msg);
+      }, 1000);
+    }
+
+    function searchForAnswer(question) {
+      const answer = knowledgeBase.findAnswer(question);
+      if (answer) {
+        addMessage('bot', answer);
+        setTimeout(() => {
+          addMessage('bot', "If you're ready to apply, click the application button above or <a href='https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)' target='_blank' style='color: #004080; text-decoration: underline;'>apply now</a>.");
+        }, 1500);
+      } else {
+        const categoryAnswers = knowledgeBase.findCategoryAnswers(question);
+        if (categoryAnswers.length > 0) {
+          addMessage('bot', `Here are the details about that: ${categoryAnswers.join(' ')}`);
+          setTimeout(() => {
+            addMessage('bot', "If you're ready to apply, click the application button above or <a href='https://docs.google.com/forms/d/e/1FAIpQLSezW6pk4JlgA5N9HnedBXQGmLzEO0d5vvNphTeO3v3Fixo_fQ/formResponse?entry.300169332=Joselito%20(Joe)' target='_blank' style='color: #004080; text-decoration: underline;'>apply now</a>.");
+          }, 1500);
+        } else {
+          addMessage('bot', "I don't have a specific answer for that yet. Let me help you get the information you need!");
+          setTimeout(() => { showQuestionForm(); }, 1000);
+        }
+      }
+    }
+
+    function showQuestionForm() {
+      questionForm.style.display = 'block';
+      document.getElementById('candidate-question').focus();
+    }
+    function hideQuestionForm() {
+      questionForm.style.display = 'none';
+      errorContainer.innerHTML = '';
+    }
+
+    async function submitQuestion() {
+      const question = document.getElementById('candidate-question').value.trim();
+      const hasProgrammingBackground = document.getElementById('programming-background').checked;
+      errorContainer.innerHTML = '';
+      if (!question) { showError('Please enter your question.'); return; }
+      if (!hasProgrammingBackground) {
+        showError('This program requires programming background. Please check the box if you have programming experience.');
+        return;
+      }
+      showLoading('Submitting your question...');
+      try {
+        // Submit to Google Form
+        const formData = new FormData();
+        formData.append(GOOGLE_FORM_QUESTION_ENTRY_ID, question);
+        await fetch(GOOGLE_FORM_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        });
+        showSuccess('Your question has been submitted! We\'ll get back to you within 2 business days.');
+        document.getElementById('candidate-question').value = '';
+        document.getElementById('programming-background').checked = false;
+        setTimeout(() => {
+          hideQuestionForm();
+          addMessage('bot', "Thanks for your question! We've received it and will get back to you within 2 business days. Feel free to ask anything else!");
+        }, 2000);
+      } catch (error) {
+        showError('Sorry, there was an error submitting your question. Please try again or contact us directly.');
+      }
+    }
+
+    function showError(message) { errorContainer.innerHTML = `<div class="error-message">${message}</div>`; }
+    function showLoading(message) { errorContainer.innerHTML = `<div class="loading-message">${message}</div>`; }
+    function showSuccess(message) { errorContainer.innerHTML = `<div class="success-message">${message}</div>`; }
+
+    // Suggestion & Welcome
+    document.addEventListener('DOMContentLoaded', function() {
+      knowledgeBase.waitForLoad().then(() => { console.log('Knowledge base ready'); });
+      setTimeout(() => {
+        addMessage('bot', "✨ <strong>Quick tip:</strong> I can help you with questions about eligibility, benefits, schedule, application process, and more!");
+      }, 2000);
+    });
+
+    function suggestQuestions() {
+      const suggestions = [
+        "What programming languages do you work with?",
+        "How do I know if I'm qualified?",
+        "What happens after I complete the program?",
+        "Can you tell me more about the interview process?",
+        "What kind of projects will I work on?",
+        "How competitive is the selection process?"
+      ];
+      const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+      setTimeout(() => {
+        addMessage('bot', `💡 <strong>Suggestion:</strong> Try asking me "${randomSuggestion}"`);
+      }, 5000);
+    }
+    setTimeout(suggestQuestions, 10000);
+
+    // Mobile resizing
+    function adjustChatForMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const chatBox = document.getElementById('chat-box');
+      if (isMobile) {
+        chatBox.style.width = '90vw';
+        chatBox.style.right = '5vw';
+        chatBox.style.left = '5vw';
+        chatBox.style.maxHeight = '70vh';
+      } else {
+        chatBox.style.width = '350px';
+        chatBox.style.right = '30px';
+        chatBox.style.left = 'auto';
+        chatBox.style.maxHeight = '500px';
+      }
+    }
+    window.addEventListener('resize', adjustChatForMobile);
+    adjustChatForMobile();
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const chatBox = document.getElementById('chat-box');
+        if (chatBox.style.display === 'flex') chatBox.style.display = 'none';
+        hideQuestionForm();
+      }
+    });
+  </script>
+</body>
+</html>
