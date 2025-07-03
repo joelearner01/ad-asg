@@ -566,7 +566,7 @@
       async loadData() {
         try {
           // Load FAQ data from Sheet1
-          const faqSheet = await sheetsAPI.fetchSheetData('Sheet1!A:C');
+          const faqSheet = await sheetsAPI.fetchSheetData('FAQ!A:C');
           if (faqSheet && faqSheet.length > 1) {
             this.faqData = faqSheet.slice(1).map(row => ({
               question: row[0] || '',
